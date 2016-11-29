@@ -1,16 +1,29 @@
+---
 resources:
-- name: resource-web-app
+- name: h
   type: git
   source:
-    uri: https://github.com/rajnishpandey/simpleWebApp
-
+    uri: https://github.com/reddyshanmukhasandeep/h
+    
+- name: resource-deploy-web-app
+  type: cf
+  source:
+    api: {{cf-api}}
+    username: {{cf-username}}
+    password: {{cf-password}}
+    organization: {{cf-organization}}
+    space: {{cf-space}}
+    skip_cert_check: true
 
 jobs:
-  - name: job-deploy-app
-    plan:
-    - aggregate:
-      - get: resource-web-app
-        trigger: true
-    - task: hello_world
+- name: job-deploy-app
+  serial: true
+  plan:
+  - {get: h, trigger: true}
+  - task: hello_world
       privileged: true
-      file: resource-web-app/task_hello_world.yml
+      file: h/task_hello_world.yml
+  - put: resource-deploy-web-app
+    params:
+      manifest: h/manifest.yml
+      path: resource-web-app
