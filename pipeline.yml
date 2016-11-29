@@ -1,0 +1,16 @@
+resources:
+- name: resource-web-app
+  type: git
+  source:
+    uri: https://github.com/rajnishpandey/simpleWebApp
+
+
+jobs:
+  - name: job-deploy-app
+    plan:
+    - aggregate:
+      - get: resource-web-app
+        trigger: true
+    - task: hello_world
+      privileged: true
+      file: resource-web-app/task_hello_world.yml
