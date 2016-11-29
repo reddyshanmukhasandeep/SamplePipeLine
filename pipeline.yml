@@ -26,4 +26,4 @@ jobs:
   - put: resource-deploy-web-app
     params:
       manifest: h/manifest.yml
-      path: resource-web-app
+      path: h
