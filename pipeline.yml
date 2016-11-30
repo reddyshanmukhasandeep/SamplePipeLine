@@ -21,8 +21,7 @@ jobs:
   plan:
   - {get: h, trigger: true}
   - task: hello_world
-      privileged: true
-      file: h/task_hello_world.yml
+    file: code/concourse/build.yml
   - put: resource-deploy-web-app
     params:
       manifest: h/manifest.yml
